@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading Test</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 50px;
+            background: #f0f0f0;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        h1 { color: #333; }
+        code { 
+            background: #f5f5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🔍 Page Load Diagnostic</h1>
+        <p><strong>Status:</strong> <span id="status" class="success">Page loaded successfully!</span></p>
+        <p><strong>URL:</strong> <code id="url"></code></p>
+        <p><strong>Search Params:</strong> <code id="search"></code></p>
+    </div>
+    
+    <div class="box">
+        <h3>Extracted Parameters:</h3>
+        <ul id="params"></ul>
+    </div>
+    
+    <div class="box">
+        <h3>Console Logs:</h3>
+        <div id="logs" style="background: #f5f5f5; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 12px;"></div>
+    </div>
+
+    <script>
+        // Capture console.log
+        const logs = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            logs.push(args.join(' '));
+            document.getElementById('logs').innerHTML = logs.map(l => `<div>${l}</div>`).join('');
+            originalLog.apply(console, args);
+        };
+        
+        console.log('=== PAGE LOAD START ===');
+        console.log('Time:', new Date().toISOString());
+        
+        // Display URL info
+        document.getElementById('url').textContent = window.location.href;
+        document.getElementById('search').textContent = window.location.search || '(empty)';
+        
+        // Parse and display parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramsList = document.getElementById('params');
+        
+        if (urlParams.toString()) {
+            urlParams.forEach((value, key) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${key}:</strong> ${value}`;
+                paramsList.appendChild(li);
+                console.log(`Param: ${key} = ${value}`);
+            });
+        } else {
+            paramsList.innerHTML = '<li><em>No parameters in URL</em></li>';
+            console.log('No URL parameters found');
+        }
+        
+        console.log('=== PAGE LOAD COMPLETE ===');
+        
+        // Test if we can reach the API
+        console.log('Testing API connectivity...');
+        fetch('http://localhost:8000/health')
+            .then(r => r.json())
+            .then(data => {
+                console.log('✅ API is reachable:', JSON.stringify(data));
+                const box = document.createElement('div');
+                box.className = 'box';
+                box.innerHTML = '<h3 class="success">✅ API Server is Running</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                document.body.appendChild(box);
+            })
+            .catch(err => {
+                console.log('❌ API is NOT reachable:', err.message);
+                const box = document.createElement('div');
+                box.className = 'box';
+                box.innerHTML = '<h3 class="error">❌ API Server is NOT Running</h3><p>' + err.message + '</p>';
+                document.body.appendChild(box);
+            });
+    </script>
+</body>
+</html>

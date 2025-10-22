@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_factory_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=false
+      - USE_GPU=false  # Set to true if GPU available
+    env_file:
+      - .env
+    volumes:
+      - ./generated_videos:/app/generated_videos
+      - ./local_t2v_model:/app/local_t2v_model
+      - ./logs:/app/logs
+      - ./credentials.json:/app/credentials.json
+    networks:
+      - ai_factory_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: Add PostgreSQL if needed instead of SQLite
+  # db:
+  #   image: postgres:15
+  #   container_name: ai_factory_db
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: ai_social_factory
+  #     POSTGRES_USER: ai_factory
+  #     POSTGRES_PASSWORD: change_this_password
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - ai_factory_network
+
+networks:
+  ai_factory_network:
+    driver: bridge
+
+# volumes:
+#   postgres_data:

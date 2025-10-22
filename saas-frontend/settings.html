@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - AI Social Factory</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect width="32" height="32" rx="8" fill="url(#gradient)"/>
+                    <path d="M16 8L20 12L16 16L12 12L16 8Z" fill="white"/>
+                    <path d="M16 16L20 20L16 24L12 20L16 16Z" fill="white" opacity="0.7"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+                            <stop offset="0%" style="stop-color:#667eea"/>
+                            <stop offset="100%" style="stop-color:#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span>AI Social Factory</span>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M18 6L6 18M6 6l12 12" stroke-width="2"/>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="7" stroke-width="2"/>
+                    <rect x="14" y="3" width="7" height="7" stroke-width="2"/>
+                    <rect x="14" y="14" width="7" height="7" stroke-width="2"/>
+                    <rect x="3" y="14" width="7" height="7" stroke-width="2"/>
+                </svg>
+                <span>Dashboard</span>
+            </a>
+            <a href="studio.html" class="nav-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="2" y="2" width="20" height="20" rx="2" stroke-width="2"/>
+                    <path d="M8 2v20M16 2v20M2 8h20M2 16h20" stroke-width="2"/>
+                </svg>
+                <span>Studio</span>
+            </a>
+            <a href="content.html" class="nav-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 7h18M3 12h18M3 17h18" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>Content</span>
+            </a>
+            <a href="analytics.html" class="nav-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M18 20V10M12 20V4M6 20v-6" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>Analytics</span>
+            </a>
+            <a href="settings.html" class="nav-item active">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="3" stroke-width="2"/>
+                    <path d="M12 1v6m0 6v6M23 12h-6m-6 0H1" stroke-width="2"/>
+                </svg>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="usage-card">
+                <div class="usage-header">
+                    <span class="usage-label">Videos Used</span>
+                    <span class="usage-count" id="sidebarUsageCount">0/5</span>
+                </div>
+                <div class="usage-bar">
+                    <div class="usage-progress" id="sidebarUsageProgress" style="width: 0%"></div>
+                </div>
+                <a href="#" class="usage-upgrade">Upgrade to Pro</a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 12h18M3 6h18M3 18h18" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+
+            <div class="header-search">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                    <path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" placeholder="Search settings...">
+            </div>
+
+            <div class="header-actions">
+                <button class="header-btn" id="notificationBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke-width="2"/>
+                    </svg>
+                    <span class="notification-badge">3</span>
+                </button>
+
+                <div class="user-menu">
+                    <button class="user-avatar" id="userMenuBtn">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="User" id="headerAvatar">
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-dropdown-header">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="User" id="dropdownAvatar">
+                            <div>
+                                <div class="user-dropdown-name" id="dropdownName">User Name</div>
+                                <div class="user-dropdown-email" id="dropdownEmail">user@example.com</div>
+                            </div>
+                        </div>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="settings.html" class="user-dropdown-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <circle cx="12" cy="12" r="3" stroke-width="2"/>
+                                <path d="M12 1v6m0 6v6M23 12h-6m-6 0H1" stroke-width="2"/>
+                            </svg>
+                            Settings
+                        </a>
+                        <a href="#" class="user-dropdown-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <rect x="3" y="11" width="18" height="11" rx="2" stroke-width="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke-width="2"/>
+                            </svg>
+                            Billing
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <button class="user-dropdown-item" id="logoutBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Settings Content -->
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div>
+                    <h1 class="page-title">Settings</h1>
+                    <p class="page-description">Manage your account settings and preferences</p>
+                </div>
+            </div>
+
+            <!-- Settings Tabs -->
+            <div class="settings-tabs">
+                <button class="settings-tab active" data-tab="profile">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke-width="2"/>
+                    </svg>
+                    Profile
+                </button>
+                <button class="settings-tab" data-tab="account">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="3" y="11" width="18" height="11" rx="2" stroke-width="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke-width="2"/>
+                    </svg>
+                    Account
+                </button>
+                <button class="settings-tab" data-tab="billing">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="1" y="4" width="22" height="16" rx="2" stroke-width="2"/>
+                        <path d="M1 10h22" stroke-width="2"/>
+                    </svg>
+                    Billing
+                </button>
+                <button class="settings-tab" data-tab="api">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke-width="2"/>
+                    </svg>
+                    API Keys
+                </button>
+                <button class="settings-tab" data-tab="integrations">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="18" cy="5" r="3" stroke-width="2"/>
+                        <circle cx="6" cy="12" r="3" stroke-width="2"/>
+                        <circle cx="18" cy="19" r="3" stroke-width="2"/>
+                        <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" stroke-width="2"/>
+                    </svg>
+                    Integrations
+                </button>
+                <button class="settings-tab" data-tab="notifications">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke-width="2"/>
+                    </svg>
+                    Notifications
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="settings-content">
+                <!-- Profile Tab -->
+                <div class="settings-panel active" id="profile-panel">
+                    <div class="settings-section">
+                        <h3 class="section-title">Profile Information</h3>
+                        <form id="profileForm">
+                            <div class="avatar-upload">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" alt="Avatar" id="avatarPreview">
+                                <div class="avatar-upload-actions">
+                                    <button type="button" class="btn btn-secondary btn-sm" id="uploadAvatarBtn">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke-width="2"/>
+                                        </svg>
+                                        Upload Photo
+                                    </button>
+                                    <button type="button" class="btn btn-ghost btn-sm" id="removeAvatarBtn">Remove</button>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-input" id="fullName" placeholder="John Doe">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-input" id="email" placeholder="john@example.com">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Company</label>
+                                    <input type="text" class="form-input" id="company" placeholder="ACME Inc.">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Phone</label>
+                                    <input type="tel" class="form-input" id="phone" placeholder="+1 (555) 000-0000">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Bio</label>
+                                <textarea class="form-textarea" id="bio" placeholder="Tell us about yourself..." rows="4"></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-ghost">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Account Tab -->
+                <div class="settings-panel" id="account-panel">
+                    <div class="settings-section">
+                        <h3 class="section-title">Change Password</h3>
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label class="form-label">Current Password</label>
+                                <input type="password" class="form-input" id="currentPassword" placeholder="••••••••">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">New Password</label>
+                                <input type="password" class="form-input" id="newPassword" placeholder="••••••••">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-input" id="confirmPassword" placeholder="••••••••">
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="settings-section danger-zone">
+                        <h3 class="section-title">Danger Zone</h3>
+                        <div class="danger-zone-content">
+                            <div>
+                                <h4>Delete Account</h4>
+                                <p>Once you delete your account, there is no going back. Please be certain.</p>
+                            </div>
+                            <button class="btn btn-danger" id="deleteAccountBtn">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Billing Tab -->
+                <div class="settings-panel" id="billing-panel">
+                    <div class="settings-section">
+                        <h3 class="section-title">Current Plan</h3>
+                        <div class="current-plan-card">
+                            <div class="plan-info">
+                                <div class="plan-name" id="currentPlanName">Free Plan</div>
+                                <div class="plan-price" id="currentPlanPrice">$0/month</div>
+                                <div class="plan-features">
+                                    <div class="plan-feature">✓ 5 videos/month</div>
+                                    <div class="plan-feature">✓ 10 scripts/month</div>
+                                    <div class="plan-feature">✓ 256x256 resolution</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary">Upgrade Plan</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="section-title">Usage This Month</h3>
+                        <div class="usage-stats">
+                            <div class="usage-stat-item">
+                                <div class="usage-stat-label">Videos Generated</div>
+                                <div class="usage-stat-value">
+                                    <span id="videosUsed">0</span> / <span id="videosLimit">5</span>
+                                </div>
+                                <div class="usage-stat-bar">
+                                    <div class="usage-stat-progress" id="videoProgress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="usage-stat-item">
+                                <div class="usage-stat-label">Scripts Generated</div>
+                                <div class="usage-stat-value">
+                                    <span id="scriptsUsed">0</span> / <span id="scriptsLimit">10</span>
+                                </div>
+                                <div class="usage-stat-bar">
+                                    <div class="usage-stat-progress" id="scriptProgress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="usage-stat-item">
+                                <div class="usage-stat-label">API Calls</div>
+                                <div class="usage-stat-value">
+                                    <span id="apiCalls">0</span> / <span id="apiLimit">100</span>
+                                </div>
+                                <div class="usage-stat-bar">
+                                    <div class="usage-stat-progress" id="apiProgress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="section-title">Billing History</h3>
+                        <div class="billing-history">
+                            <p class="text-muted">No billing history yet.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Keys Tab -->
+                <div class="settings-panel" id="api-panel">
+                    <div class="settings-section">
+                        <h3 class="section-title">API Keys</h3>
+                        <p class="section-description">Use API keys to authenticate your applications with AI Social Factory.</p>
+                        
+                        <div class="api-keys-list" id="apiKeysList">
+                            <!-- API keys will be inserted here -->
+                        </div>
+
+                        <button class="btn btn-primary" id="generateApiKeyBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M12 5v14M5 12h14" stroke-width="2"/>
+                            </svg>
+                            Generate New API Key
+                        </button>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="section-title">API Documentation</h3>
+                        <p>Learn how to integrate AI Social Factory into your applications.</p>
+                        <a href="#" class="btn btn-secondary">View API Docs</a>
+                    </div>
+                </div>
+
+                <!-- Integrations Tab -->
+                <div class="settings-panel" id="integrations-panel">
+                    <div class="settings-section">
+                        <h3 class="section-title">Connected Services</h3>
+                        
+                        <div class="integration-grid">
+                            <div class="integration-card">
+                                <div class="integration-icon">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2">
+                                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="integration-info">
+                                    <h4>Twitter</h4>
+                                    <p>Connect your Twitter account to auto-post content</p>
+                                </div>
+                                <button class="btn btn-secondary btn-sm">Connect</button>
+                            </div>
+
+                            <div class="integration-card connected">
+                                <div class="integration-icon">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#EA4335">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke-width="2"/>
+                                        <path d="m22 6-10 7L2 6" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="integration-info">
+                                    <h4>WordPress</h4>
+                                    <p>Publish content directly to your WordPress blog</p>
+                                    <span class="integration-status">Connected</span>
+                                </div>
+                                <button class="btn btn-ghost btn-sm">Disconnect</button>
+                            </div>
+
+                            <div class="integration-card">
+                                <div class="integration-icon">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4A154B">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="2"/>
+                                        <path d="M9 9h.01M15 9h.01M9 15h.01M15 15h.01" stroke-width="3" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <div class="integration-info">
+                                    <h4>Slack</h4>
+                                    <p>Get notifications in your Slack workspace</p>
+                                </div>
+                                <button class="btn btn-secondary btn-sm">Connect</button>
+                            </div>
+
+                            <div class="integration-card">
+                                <div class="integration-icon">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0F9D58">
+                                        <rect x="3" y="3" width="7" height="7" stroke-width="2"/>
+                                        <rect x="3" y="14" width="7" height="7" stroke-width="2"/>
+                                        <rect x="14" y="3" width="7" height="7" stroke-width="2"/>
+                                        <rect x="14" y="14" width="7" height="7" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="integration-info">
+                                    <h4>Google Sheets</h4>
+                                    <p>Export analytics data to Google Sheets</p>
+                                </div>
+                                <button class="btn btn-secondary btn-sm">Connect</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Tab -->
+                <div class="settings-panel" id="notifications-panel">
+                    <div class="settings-section">
+                        <h3 class="section-title">Email Notifications</h3>
+                        <div class="notification-options">
+                            <div class="notification-option">
+                                <div>
+                                    <h4>Video Generation Complete</h4>
+                                    <p>Get notified when your videos are ready</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" checked id="notifVideoComplete">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <div>
+                                    <h4>Monthly Usage Report</h4>
+                                    <p>Receive a summary of your monthly usage</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" checked id="notifMonthlyReport">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <div>
+                                    <h4>New Features</h4>
+                                    <p>Stay updated on new features and improvements</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" id="notifNewFeatures">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <div>
+                                    <h4>Marketing Emails</h4>
+                                    <p>Tips, tutorials, and promotional content</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" id="notifMarketing">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>

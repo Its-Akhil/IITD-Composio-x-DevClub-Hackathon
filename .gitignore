@@ -1,0 +1,500 @@
+# ============================================================================
+# AI Social Factory - .gitignore
+# Comprehensive ignore file for project reproducibility
+# ============================================================================
+
+# ============================================================================
+# CREDENTIALS & SECRETS - NEVER COMMIT THESE
+# ============================================================================
+credentials.json
+*credentials*.json
+linkedin_credentials.txt
+*.pem
+*.key
+*.env
+.env
+.env.*
+!.env.example
+!.env.template
+*.secret
+secrets/
+config/secrets/
+
+# API Keys and Tokens
+*token*.txt
+*api_key*.txt
+slack_token.txt
+openai_key.txt
+
+# ============================================================================
+# PYTHON
+# ============================================================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.pytest_cache/
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+virtualenv/
+.python-version
+
+# pyenv
+.python-version
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# ============================================================================
+# NODE.JS / FRONTEND
+# ============================================================================
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Testing
+coverage/
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ============================================================================
+# AI/ML MODELS & DATA
+# ============================================================================
+# Large model files - download separately or use Git LFS
+local_t2v_model/
+*.ckpt
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+*.h5
+*.pb
+*.tflite
+
+# Training data and outputs
+training_data/
+checkpoints/
+wandb/
+mlruns/
+
+# Exception: Keep model config files for reproducibility
+!local_t2v_model/model_index.json
+!local_t2v_model/config.json
+!local_t2v_model/**/config.json
+
+# ============================================================================
+# GENERATED CONTENT
+# ============================================================================
+# Generated videos and media
+generated_videos/
+generated_videos/*.mp4
+generated_videos/*.avi
+generated_videos/*.mov
+uploads/
+downloads/
+
+# Generated images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+!frontend/**/*.png
+!frontend/**/*.jpg
+!frontend/**/*.jpeg
+!frontend/**/*.gif
+!saas-frontend/**/*.png
+!saas-frontend/**/*.jpg
+!saas-frontend/**/*.jpeg
+!saas-frontend/**/*.gif
+!docs/**/*.png
+!docs/**/*.jpg
+
+# Exception: Keep example/placeholder images
+!**/example*.png
+!**/example*.jpg
+!**/placeholder*.png
+!**/placeholder*.jpg
+!**/logo*.png
+!**/logo*.jpg
+
+# ============================================================================
+# LOGS & TEMPORARY FILES
+# ============================================================================
+logs/
+*.log
+log/
+temp/
+tmp/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Exception: Keep test result templates or examples
+!logs/test_results_template.json
+!logs/README.md
+
+# ============================================================================
+# DATABASE
+# ============================================================================
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Exception: Keep example/seed databases
+!**/example.db
+!**/seed.db
+
+# PostgreSQL
+*.dump
+*.sql.gz
+
+# ============================================================================
+# DOCKER
+# ============================================================================
+# Docker volumes
+docker-data/
+.docker/
+
+# Exception: Keep docker configuration files
+!docker-compose.yml
+!docker-compose.*.yml
+!Dockerfile
+!Dockerfile.*
+!.dockerignore
+
+# ============================================================================
+# IDE & EDITOR
+# ============================================================================
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json.example
+!.vscode/extensions.json
+!.vscode/launch.json.example
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# ============================================================================
+# OPERATING SYSTEM
+# ============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================================================
+# CACHE & BUILD
+# ============================================================================
+.cache/
+.parcel-cache/
+.eslintcache
+.sass-cache/
+*.css.map
+*.js.map
+
+# ============================================================================
+# BACKUP FILES
+# ============================================================================
+*.bak
+*.backup
+*.old
+*_backup
+*_old
+*.orig
+
+# ============================================================================
+# PROJECT-SPECIFIC EXCLUSIONS
+# ============================================================================
+# Test data (exclude unless needed for CI/CD)
+test_data/
+sample_data/
+
+# Exception: Keep test fixtures and examples
+!tests/fixtures/
+!tests/data/example*.json
+
+# OAuth callback temporary files
+oauth_callback_*.txt
+
+# Slack webhook URLs
+slack_webhooks.txt
+
+# WordPress staging/test sites
+wordpress_test_config.php
+
+# Google Sheets service account keys (should use credentials.json instead)
+service_account*.json
+
+# LinkedIn session files
+linkedin_session*.pkl
+*.session
+
+# Processing queue temporary files
+queue/*.processing
+queue/*.temp
+
+# ============================================================================
+# DOCUMENTATION - Development/Process Documentation
+# ============================================================================
+# Exclude development process and fix documentation
+*_FIX.md
+*_COMPLETE.md
+*_SETUP.md
+*_CONFIG.md
+*_GUIDE.md
+*_API.md
+*_INTEGRATION.md
+*_ARCHITECTURE.md
+*_ROADMAP.md
+*_STATUS.md
+AUTO_*.md
+BLOCKING_*.md
+FIXES_*.md
+FIX_*.md
+RECONFIGURED_*.md
+RELOAD_*.md
+ONE_CLICK_*.md
+PROJECT_*.md
+SAAS_*.md
+SHEETS_*.md
+SLACK_*.md
+WORDPRESS_*.md
+UNICODE_*.md
+JSON_*.md
+GOOGLE_*.md
+LINKEDIN_*.md
+IMPLEMENTATION_*.md
+QUICK_FIX.md
+QUICK_START.md
+STARTUP_GUIDE.md
+
+# Frontend documentation
+frontend/*_FIX.md
+frontend/*_GUIDE.md
+frontend/*_PREVIEW.md
+frontend/QUICK_FIX.md
+frontend/VIDEO_GUIDE.md
+frontend/VIDEO_PREVIEW.md
+frontend/CACHE_FIX.md
+
+# Keep only essential documentation
+!README.md
+!LICENSE
+!CONTRIBUTING.md
+!CHANGELOG.md
+
+# Friction log (generated from all dev docs)
+friction.log
+
+# ============================================================================
+# PROJECT ORGANIZATION DIRECTORIES
+# ============================================================================
+# Fix and utility scripts (kept locally, not in repo)
+fixes/
+test_scripts/
+
+# ============================================================================
+# CI/CD
+# ============================================================================
+# GitHub Actions artifacts
+.github/workflows/*.log
+
+# ============================================================================
+# KEEP THESE FILES (Explicit includes for important config)
+# ============================================================================
+# Configuration templates and examples
+!config.example.py
+!.env.example
+!.env.template
+!settings.example.json
+!credentials.example.json
+
+# Requirements and dependency files
+!requirements.txt
+!package.json
+!pyproject.toml
+!poetry.lock
+!Pipfile
+!Pipfile.lock
+
+# Docker and deployment
+!docker-compose.yml
+!Dockerfile
+!.dockerignore
+!nginx.conf
+
+# Scripts
+!start_all.bat
+!start_all.ps1
+!start_dev.ps1
+!start_prod.ps1
+!setup_env.py
+!setup_linkedin.py
+
+# Documentation
+!README.md
+!LICENSE
+!CONTRIBUTING.md
+!CHANGELOG.md

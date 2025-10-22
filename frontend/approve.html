@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slack Approval Handler - AI Social Factory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        input.auto-filled, select.auto-filled {
+            background: #e8f5e9;
+            border-color: #11998e;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-approve {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-approve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(17, 153, 142, 0.3);
+        }
+
+        .btn-reject {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+        }
+
+        .btn-reject:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(235, 51, 73, 0.3);
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 16px;
+            border-radius: 10px;
+            display: none;
+            font-size: 14px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 2px solid #bee5eb;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+
+        .info-box p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+
+        .info-box strong {
+            color: #333;
+        }
+
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 Slack Approval Handler</h1>
+        <p class="subtitle">Approve or reject content for publishing</p>
+
+        <div class="info-box">
+            <p><strong>Note:</strong> Copy the Workflow ID and Post ID from the Slack message to approve or reject content.</p>
+            <p>This page handles approvals since Slack webhooks are one-way only.</p>
+        </div>
+
+        <form id="approvalForm">
+            <div class="form-group">
+                <label for="workflowId">Workflow ID *</label>
+                <input 
+                    type="text" 
+                    id="workflowId" 
+                    placeholder="e.g., wf_2_1729612345.123456"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="postId">Post ID (optional)</label>
+                <input 
+                    type="text" 
+                    id="postId" 
+                    placeholder="e.g., 123"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="contentId">Content ID (optional)</label>
+                <input 
+                    type="text" 
+                    id="contentId" 
+                    placeholder="e.g., 2"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="platform">Platform</label>
+                <select id="platform">
+                    <option value="wordpress">WordPress</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="youtube">YouTube</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="comment">Comment (optional)</label>
+                <input 
+                    type="text" 
+                    id="comment" 
+                    placeholder="Add a comment..."
+                >
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn-approve" onclick="handleApproval(true)">
+                    <span>✅ Approve</span>
+                    <div class="loader" id="approveLoader"></div>
+                </button>
+                <button type="button" class="btn-reject" onclick="handleApproval(false)">
+                    <span>❌ Reject</span>
+                    <div class="loader" id="rejectLoader"></div>
+                </button>
+            </div>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000/api/v1';
+        const API_KEY = 'change-this-in-production';
+
+        async function handleApproval(approved) {
+            const workflowId = document.getElementById('workflowId').value.trim();
+            const postId = document.getElementById('postId').value.trim();
+            const contentId = document.getElementById('contentId').value.trim();
+            const platform = document.getElementById('platform').value;
+            const comment = document.getElementById('comment').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            if (!workflowId) {
+                showResult('error', 'Please enter a Workflow ID');
+                return;
+            }
+
+            // Show loader
+            const loaderId = approved ? 'approveLoader' : 'rejectLoader';
+            const loader = document.getElementById(loaderId);
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => btn.disabled = true);
+            loader.style.display = 'block';
+
+            try {
+                // Build query parameters (exclude api_key from query, use header instead)
+                const params = new URLSearchParams({
+                    workflow_id: workflowId,
+                    platform: platform,
+                    approved: approved
+                });
+
+                if (postId) params.append('post_id', postId);
+                if (contentId) params.append('content_id', contentId);
+                if (comment) params.append('comment', comment);
+
+                const response = await fetch(`${API_BASE_URL}/workflow/slack-approval?${params}`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-API-Key': API_KEY  // Send API key in header, not query
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (approved) {
+                        showResult('success', `✅ Content approved and published to ${platform}!<br><br><strong>Details:</strong><br>${JSON.stringify(data, null, 2)}`);
+                    } else {
+                        showResult('info', `❌ Content rejected.<br><br><strong>Details:</strong><br>${JSON.stringify(data, null, 2)}`);
+                    }
+                    
+                    // Clear form
+                    setTimeout(() => {
+                        document.getElementById('approvalForm').reset();
+                    }, 2000);
+                } else {
+                    showResult('error', `Error: ${data.detail || 'Unknown error'}`);
+                }
+            } catch (error) {
+                showResult('error', `Network error: ${error.message}<br><br>Make sure the API server is running on http://localhost:8000`);
+            } finally {
+                // Hide loader
+                loader.style.display = 'none';
+                buttons.forEach(btn => btn.disabled = false);
+            }
+        }
+
+        function showResult(type, message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = message;
+            resultDiv.style.display = 'block';
+        }
+
+        // Auto-fill from URL parameters if present
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM Content Loaded');
+            console.log('Current URL:', window.location.href);
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            console.log('URL Parameters:', Object.fromEntries(urlParams));
+            
+            const infoBox = document.querySelector('.info-box');
+            
+            // Track if any fields were auto-populated
+            let autoFilled = false;
+            
+            try {
+                if (urlParams.has('workflow_id')) {
+                    const field = document.getElementById('workflowId');
+                    field.value = urlParams.get('workflow_id');
+                    field.classList.add('auto-filled');
+                    autoFilled = true;
+                    console.log('Set workflow_id:', field.value);
+                }
+                if (urlParams.has('post_id')) {
+                    const field = document.getElementById('postId');
+                    field.value = urlParams.get('post_id');
+                    field.classList.add('auto-filled');
+                    autoFilled = true;
+                    console.log('Set post_id:', field.value);
+                }
+                if (urlParams.has('content_id')) {
+                    const field = document.getElementById('contentId');
+                    field.value = urlParams.get('content_id');
+                    field.classList.add('auto-filled');
+                    autoFilled = true;
+                    console.log('Set content_id:', field.value);
+                }
+                if (urlParams.has('platform')) {
+                    const field = document.getElementById('platform');
+                    field.value = urlParams.get('platform');
+                    field.classList.add('auto-filled');
+                    autoFilled = true;
+                    console.log('Set platform:', field.value);
+                }
+                
+                // Update info box if fields were auto-filled
+                if (autoFilled) {
+                    infoBox.innerHTML = `
+                        <p><strong>✅ Fields Auto-Populated!</strong></p>
+                        <p>All information has been loaded from the Slack message.</p>
+                        <p>Review the details below and click <strong>Approve</strong> or <strong>Reject</strong>.</p>
+                    `;
+                    infoBox.style.borderLeft = '4px solid #11998e';
+                    infoBox.style.background = '#e8f5e9';
+                    
+                    // Show success notification
+                    setTimeout(() => {
+                        showResult('success', '✅ All fields have been auto-populated from Slack! Review and approve or reject.');
+                    }, 500);
+                }
+                
+                console.log('Page initialization complete');
+            } catch (error) {
+                console.error('Error during initialization:', error);
+                showResult('error', `Initialization error: ${error.message}`);
+            }
+        });
+    </script>
+</body>
+</html>

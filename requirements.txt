@@ -1,0 +1,53 @@
+# AI Social Factory - Python Dependencies
+# Updated: October 2025
+
+# Core Web Framework
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+pydantic==2.6.1
+pydantic-settings==2.1.0
+
+# AI/ML - Video Generation
+diffusers==0.26.3
+transformers==4.37.2
+accelerate==0.26.1
+
+# AI/ML - LLM
+google-generativeai==0.3.2
+
+# Google Services
+gspread==5.12.3
+google-auth==2.27.0
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+
+# HTTP/API Clients
+aiohttp==3.9.3
+httpx==0.26.0
+requests==2.31.0
+
+# Database
+sqlalchemy==2.0.25
+alembic==1.13.1
+
+# Utilities
+python-dotenv==1.0.1
+python-multipart==0.0.9
+pydantic-core==2.16.2
+
+# Image/Video Processing
+pillow==10.2.0
+numpy==1.26.3
+opencv-python==4.9.0.80
+imageio==2.33.1
+imageio-ffmpeg==0.4.9
+
+# Development/Testing
+pytest
+pytest-asyncio
+black==24.1.1
+flake8==7.0.0
+mypy==1.8.0
+
+# Monitoring (Optional)
+prometheus-client==0.19.0

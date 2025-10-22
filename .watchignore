@@ -1,0 +1,18 @@
+# Folders to ignore for auto-reload
+generated_videos/
+logs/
+local_t2v_model/
+__pycache__/
+.git/
+venv/
+.pytest_cache/
+
+# File types to ignore
+*.mp4
+*.log
+*.db
+*.db-journal
+*.pyc
+*.pyo
+*.pyd
+.Python

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Social Factory - Control Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" rx="8" fill="url(#gradient)"/>
+                    <path d="M10 20L15 15L20 20L25 15L30 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 25L15 20L20 25L25 20L30 25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#667eea"/>
+                            <stop offset="100%" stop-color="#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>AI Social Factory</h1>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Checking...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Step 1: Server Health Check -->
+            <div class="step-card" data-step="1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <h2>Server Health Check</h2>
+                    <button class="action-btn" onclick="checkHealth()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M4 10l5 5 7-10"/>
+                        </svg>
+                        Check Status
+                    </button>
+                </div>
+                <div class="step-description">
+                    <p><strong>What it does:</strong> Verifies that the FastAPI backend server is running and all services are operational.</p>
+                    <p><strong>Expected Response:</strong> Server status "healthy", video service available, all integrations configured.</p>
+                    <p><strong>Where to check:</strong> Terminal running <code>uvicorn app.main:app --reload</code> should show no errors.</p>
+                </div>
+                <div class="step-result" id="result-1"></div>
+            </div>
+
+            <!-- Step 2: Test Gemini API -->
+            <div class="step-card" data-step="2">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h2>Test Gemini AI Integration</h2>
+                    <button class="action-btn" onclick="testGemini()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z"/>
+                        </svg>
+                        Test AI
+                    </button>
+                </div>
+                <div class="step-description">
+                    <p><strong>What it does:</strong> Tests Google Gemini API connection and content generation capabilities.</p>
+                    <p><strong>Expected Response:</strong> Successfully generates AI content, returns structured JSON response.</p>
+                    <p><strong>Where to check:</strong> Response will show generated content. Check <code>.env</code> for <code>GEMINI_API_KEY</code>.</p>
+                </div>
+                <div class="step-result" id="result-2"></div>
+            </div>
+
+            <!-- Step 3: Generate Script Variants -->
+            <div class="step-card" data-step="3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h2>Generate Video Scripts</h2>
+                    <button class="action-btn" onclick="showScriptForm()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M3 3h14v14H3z M7 7h6 M7 11h6 M7 15h4"/>
+                        </svg>
+                        Generate
+                    </button>
+                </div>
+                <div class="step-description">
+                    <p><strong>What it does:</strong> Uses Gemini AI to generate multiple creative script variants for social media videos.</p>
+                    <p><strong>Expected Response:</strong> Returns 3 unique script variants with different styles (educational, conversational, motivational).</p>
+                    <p><strong>Where to check:</strong> Each variant includes variant_id, script text, style, and duration estimate.</p>
+                </div>
+                <div class="step-form" id="form-3" style="display:none;">
+                    <input type="text" id="scriptTopic" placeholder="Enter topic (e.g., AI and Future of Work)" />
+                    <select id="scriptPlatform">
+                        <option value="instagram">Instagram</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="linkedin">LinkedIn</option>
+                    </select>
+                    <input type="number" id="scriptDuration" placeholder="Duration (seconds)" value="30" />
+                    <button class="submit-btn" onclick="generateScript()">Submit</button>
+                </div>
+                <div class="step-result" id="result-3"></div>
+            </div>
+
+            <!-- Step 4: Generate Caption -->
+            <div class="step-card" data-step="4">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <h2>Generate Social Media Caption</h2>
+                    <button class="action-btn" onclick="showCaptionForm()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2 4h16v12H2z M6 8h8 M6 12h6"/>
+                        </svg>
+                        Generate
+                    </button>
+                </div>
+                <div class="step-description">
+                    <p><strong>What it does:</strong> Generates engaging captions with relevant hashtags optimized for specific platforms.</p>
+                    <p><strong>Expected Response:</strong> Platform-appropriate caption text with 5-10 relevant hashtags.</p>
+                    <p><strong>Where to check:</strong> Caption follows platform guidelines (Instagram: engaging, LinkedIn: professional, etc.).</p>
+                </div>
+                <div class="step-form" id="form-4" style="display:none;">
+                    <textarea id="captionScript" placeholder="Enter video script or description" rows="4"></textarea>
+                    <select id="captionPlatform">
+                        <option value="instagram">Instagram</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="linkedin">LinkedIn</option>
+                    </select>
+                    <button class="submit-btn" onclick="generateCaption()">Submit</button>
+                </div>
+                <div class="step-result" id="result-4"></div>
+            </div>
+
+            <!-- Step 5: Google Sheets Integration -->
+            <div class="step-card" data-step="5">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <h2>Google Sheets Content Calendar</h2>
+                    <button class="action-btn" onclick="checkSheets()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M3 3h14v14H3z M3 8h14 M8 3v14"/>
+                        </svg>
+                        Check
+                    </button>
+                </div>
+                <div class="step-description">
+                    <p><strong>What it does:</strong> Retrieves pending content items from Google Sheets for scheduling and management.</p>
+                    <p><strong>Expected Response:</strong> List of content items with topics, platforms, and scheduling status.</p>
+                    <p><strong>Where to check:</strong> Verify <code>credentials.json</code> exists and sheet is shared with service account email.</p>
+                </div>
+                <div class="step-result" id="result-5"></div>
+            </div>
+
+            <!-- Step 6: Slack Notifications -->
+            <div class="step-card" data-step="6">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <h2>Slack Notifications</h2>
+                    <button class="action-btn" onclick="testSlack()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 2v16 M2 10h16"/>
+                        </svg>
+                        Send Test
+                    </button>
+                </div>
+                <div class="step-description">
+                    <p><strong>What it does:</strong> Sends workflow status notifications to configured Slack channel.</p>
+                    <p><strong>Expected Response:</strong> Success message confirming notification was sent to Slack.</p>
+                    <p><strong>Where to check:</strong> Check Slack channel configured in <code>SLACK_WEBHOOK_URL</code> for test message.</p>
+                </div>
+                <div class="step-result" id="result-6"></div>
+            </div>
+
+            <!-- Step 7: Video Generation -->
+            <div class="step-card" data-step="7">
+                <div class="step-header">
+                    <div class="step-number">7</div>
+                    <h2>AI Video Generation</h2>
+                    <button class="action-btn" onclick="showVideoForm()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M2 4v12l14-6z"/>
+                        </svg>
+                        Generate
+                    </button>
+                </div>
+                <div class="step-description">
+                    <p><strong>What it does:</strong> Generates video from text prompt using ModelScope text-to-video AI model (6GB download required).</p>
+                    <p><strong>Expected Response:</strong> Video generation task ID. Process takes 5-10 minutes on GPU, longer on CPU.</p>
+                    <p><strong>Where to check:</strong> Generated videos saved to <code>generated_videos/</code> folder. Check logs for progress.</p>
+                </div>
+                <div class="step-form" id="form-7" style="display:none;">
+                    <input type="text" id="videoPrompt" placeholder="Enter video description" />
+                    <input type="number" id="videoFrames" placeholder="Number of frames" value="16" />
+                    <button class="submit-btn" onclick="generateVideo()">Generate Video</button>
+                </div>
+                <div class="step-result" id="result-7"></div>
+            </div>
+
+            <!-- Step 8: Database & Analytics -->
+            <div class="step-card" data-step="8">
+                <div class="step-header">
+                    <div class="step-number">8</div>
+                    <h2>Analytics & Database</h2>
+                    <button class="action-btn" onclick="checkAnalytics()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M3 17V7h4v10H3z M9 17V3h4v14H9z M15 17v-6h4v6h-4z"/>
+                        </svg>
+                        View Stats
+                    </button>
+                </div>
+                <div class="step-description">
+                    <p><strong>What it does:</strong> Retrieves analytics summary including total videos generated, workflow executions, and performance metrics.</p>
+                    <p><strong>Expected Response:</strong> Statistics for last 7 days including video count, success rate, average duration.</p>
+                    <p><strong>Where to check:</strong> Database file at <code>ai_social_factory.db</code>. Tables: video_generations, workflow_executions.</p>
+                </div>
+                <div class="step-result" id="result-8"></div>
+            </div>
+
+            <!-- Step 9: Complete Workflow -->
+            <div class="step-card" data-step="9">
+                <div class="step-header">
+                    <div class="step-number">9</div>
+                    <h2>Execute Complete Workflow</h2>
+                    <button class="action-btn" onclick="showWorkflowForm()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 2L2 6v6c0 5 3 8 8 10 5-2 8-5 8-10V6l-8-4z"/>
+                        </svg>
+                        Run Workflow
+                    </button>
+                </div>
+                <div class="step-description">
+                    <p><strong>What it does:</strong> Executes the complete end-to-end workflow: Script generation → Caption → Video → Post to WordPress → Slack notification.</p>
+                    <p><strong>Expected Response:</strong> Workflow execution ID with status updates for each step. Full process takes 10-15 minutes.</p>
+                    <p><strong>Where to check:</strong> Monitor logs in <code>logs/</code> folder. Check WordPress for published post, Slack for completion notification.</p>
+                </div>
+                <div class="step-form" id="form-9" style="display:none;">
+                    <input type="text" id="workflowTopic" placeholder="Content topic" />
+                    <select id="workflowPlatform">
+                        <option value="instagram">Instagram</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="linkedin">LinkedIn</option>
+                    </select>
+                    <button class="submit-btn" onclick="executeWorkflow()">Execute</button>
+                </div>
+                <div class="step-result" id="result-9"></div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p><strong>Quick Start Guide:</strong></p>
+                <ol>
+                    <li>Ensure backend server is running: <code>uvicorn app.main:app --reload</code></li>
+                    <li>Test each step sequentially from top to bottom</li>
+                    <li>Green checkmarks indicate successful operations</li>
+                    <li>Red errors show what needs to be configured</li>
+                    <li>Check terminal logs for detailed debugging information</li>
+                </ol>
+                <p class="api-info">API Base URL: <code id="apiUrl">http://localhost:8000</code></p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js?v=2.0"></script>
+</body>
+</html>
